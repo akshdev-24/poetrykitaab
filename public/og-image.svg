@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1c1917"/>
+      <stop offset="100%" stop-color="#121110"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  
+  <!-- Subtle decorative ruled border -->
+  <rect x="40" y="40" width="1120" height="550" rx="4" fill="none" stroke="#38342e" stroke-width="1.5" stroke-dasharray="8 6"/>
+  <rect x="48" y="48" width="1104" height="534" rx="2" fill="none" stroke="#2a2723" stroke-width="1"/>
+
+  <!-- Brand Mark -->
+  <g transform="translate(100, 110)">
+    <path d="M0 4c10-3 20-3 30 3 10-6 20-6 30-3v40c-10-3-20-3-30 3-10-6-20-6-30-3V4z" fill="none" stroke="#f4efe6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="30" y1="7" x2="30" y2="47" stroke="#883025" stroke-width="3"/>
+  </g>
+
+  <text x="180" y="145" font-family="Georgia, serif" font-size="36" font-weight="bold" fill="#f4efe6" letter-spacing="0.05em">PoetryKitaab</text>
+  <text x="180" y="175" font-family="sans-serif" font-size="14" fill="#a1978d" letter-spacing="0.15em" text-transform="uppercase">A Digital Literary Journal &amp; Archive</text>
+
+  <!-- Editorial Headline & Quote -->
+  <text x="100" y="320" font-family="Georgia, serif" font-size="52" font-style="italic" fill="#ffffff">
+    "Words for the feelings you can't explain."
+  </text>
+  
+  <text x="100" y="410" font-family="sans-serif" font-size="22" fill="#c7bfb6" line-height="1.6">
+    Modern poetry, soulful Hindi &amp; Urdu shayari, timeless nazms, and quiet reflections.
+  </text>
+
+  <!-- Bottom Details -->
+  <line x1="100" y1="480" x2="1100" y2="480" stroke="#38342e" stroke-width="1"/>
+  <text x="100" y="520" font-family="sans-serif" font-size="16" fill="#883025" font-weight="600">POETRY • SHAYARI • QUOTES • NAZMS • REFLECTIONS</text>
+  <text x="1100" y="520" font-family="sans-serif" font-size="15" fill="#7d746c" text-anchor="end">poetrykitaab.com</text>
+</svg>

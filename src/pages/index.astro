@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialHero from '../components/EditorialHero.astro';
+import PostCard from '../components/PostCard.astro';
+import MoodExplorer from '../components/MoodExplorer.astro';
+import Icons from '../components/Icons.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { getAllPosts } from '../utils/contentLoader';
+import { siteConfig } from '../config/siteConfig';
+
+const allPosts = getAllPosts();
+const featuredPost = allPosts[0];
+const todaysWords = allPosts[1] || allPosts[0];
+const mixedLatest = allPosts.slice(2, 6);
+const shayariSpecial = allPosts.filter(p => p.category === 'shayari' || p.category === 'poetry').slice(0, 4);
+const quoteOfTheDay = allPosts.find(p => p.category === 'motivation' || p.category === 'life') || allPosts[allPosts.length - 1];
+---
+
+<BaseLayout 
+  meta={{
+    title: `${siteConfig.name} — ${siteConfig.tagline}`,
+    description: siteConfig.description,
+  }}
+>
+  <!-- 1. Publication Hero Editorial Feature -->
+  <EditorialHero featuredPost={featuredPost} />
+
+  {allPosts.length === 0 ? (
+    <div class="max-w-5xl mx-auto px-4 py-16">
+      <EmptyState title="No entries in Kitaab yet" description="The editorial board is currently curating fresh pieces. Check back shortly." />
+    </div>
+  ) : (
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-16 sm:space-y-24">
+      
+      <!-- 2. Today's Words / Curated Reading Stanza -->
+      {todaysWords && (
+        <section class="border-y border-[#e8e3d8] dark:border-[#2d2a24] py-10 sm:py-14 bg-[#faf7f2] dark:bg-[#131210]">
+          <div class="max-w-3xl mx-auto text-center space-y-6 px-4">
+            <span class="text-xs font-serif italic text-[#883025] dark:text-[#c4584b] uppercase tracking-widest font-medium">
+              Today's Selected Words
+            </span>
+            
+            <a href={`/${todaysWords.category}/${todaysWords.slug}`} class="block group">
+              <p class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#1c1917] dark:text-[#f2eee8] leading-[1.8] group-hover:text-[#883025] dark:group-hover:text-[#c4584b] transition-colors whitespace-pre-line">
+                {todaysWords.text}
+              </p>
+            </a>
+
+            <div class="pt-2 flex items-center justify-center gap-3 text-xs text-[#7d746c] dark:text-[#948c82]">
+              <span class="font-serif italic">— {todaysWords.attribution || 'PoetryKitaab Archive'}</span>
+              <span>•</span>
+              <a href={`/${todaysWords.category}/${todaysWords.slug}`} class="text-[#883025] dark:text-[#c4584b] hover:underline font-medium">
+                Open piece →
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- 3. Explore by Feeling (Literary Pathways) -->
+      <MoodExplorer />
+
+      <!-- 4. Latest From PoetryKitaab (Mixed Editorial Layout) -->
+      <section class="space-y-8">
+        <div class="border-b border-[#e8e3d8] dark:border-[#2d2a24] pb-3 flex items-baseline justify-between">
+          <div>
+            <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+              Recent Additions
+            </span>
+            <h2 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8] mt-0.5">
+              Latest From The Archive
+            </h2>
+          </div>
+          <a href="/search/" class="text-xs font-serif italic text-[#883025] dark:text-[#c4584b] hover:underline flex items-center gap-1">
+            <span>View all entries</span>
+            <span>→</span>
+          </a>
+        </div>
+
+        <!-- Asymmetric 2-column layout: Large Stanza Left + Stacked Archive Rows Right -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+          {mixedLatest[0] && (
+            <div class="lg:col-span-7">
+              <PostCard post={mixedLatest[0]} variant="editorial-feature" class="h-full" />
+            </div>
+          )}
+
+          <div class="lg:col-span-5 space-y-4 flex flex-col justify-between">
+            {mixedLatest.slice(1, 4).map((post) => (
+              <PostCard post={post} variant="poetry-stanza" />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Poetry & Shayari Collection (Actual Poetry Typography) -->
+      {shayariSpecial.length > 0 && (
+        <section class="space-y-8">
+          <div class="border-b border-[#e8e3d8] dark:border-[#2d2a24] pb-3 flex items-baseline justify-between">
+            <div>
+              <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+                कविता एवं शायरी
+              </span>
+              <h2 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8] mt-0.5">
+                Soulful Shayari &amp; Nazms
+              </h2>
+            </div>
+            <a href="/shayari/" class="text-xs font-serif italic text-[#883025] dark:text-[#c4584b] hover:underline">
+              Browse Shayari Archive →
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {shayariSpecial.map((post) => (
+              <PostCard post={post} variant="poetry-stanza" />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- 6. Quote of the Day Strip -->
+      {quoteOfTheDay && (
+        <section class="p-8 sm:p-12 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs">
+          <div class="max-w-2xl mx-auto text-center space-y-4">
+            <span class="text-[11px] font-sans uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+              Thought of the Day
+            </span>
+            <a href={`/${quoteOfTheDay.category}/${quoteOfTheDay.slug}`} class="block group">
+              <blockquote class="font-serif text-xl sm:text-2xl italic text-[#1c1917] dark:text-[#f2eee8] leading-relaxed group-hover:text-[#883025] transition-colors">
+                "{quoteOfTheDay.text}"
+              </blockquote>
+            </a>
+            <div class="text-xs text-[#7d746c] dark:text-[#948c82] font-serif">
+              — {quoteOfTheDay.attribution || 'PoetryKitaab'}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- 7. Browse the Kitaab (Category / Archive Navigation) -->
+      <section class="space-y-6">
+        <div class="border-b border-[#e8e3d8] dark:border-[#2d2a24] pb-3">
+          <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+            Categorical Index
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8] mt-0.5">
+            Browse The Complete Kitaab
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+          {siteConfig.categories.map((cat) => (
+            <a
+              href={`/${cat.slug}/`}
+              class="group p-4 rounded-lg border border-[#e4ded3] dark:border-[#282520] bg-white dark:bg-[#1a1815] hover:border-[#883025] dark:hover:border-[#c4584b] transition-all flex flex-col justify-between space-y-2 hover:shadow-2xs"
+            >
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-serif font-semibold text-[#1c1917] dark:text-[#f2eee8] group-hover:text-[#883025] dark:group-hover:text-[#c4584b] transition-colors">
+                  {cat.name}
+                </span>
+                <span class="text-[11px] text-[#8c847a] font-serif">{cat.hindi}</span>
+              </div>
+              <p class="text-[11px] text-[#5e5750] dark:text-[#a1978d] line-clamp-2 leading-snug">
+                {cat.description}
+              </p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <!-- 8. Editorial Supporting Section & Literary Mission -->
+      <section class="p-8 sm:p-12 rounded-xl border border-[#e4ded3] dark:border-[#282520] bg-[#f7f3ea]/60 dark:bg-[#171512]/60">
+        <div class="max-w-3xl mx-auto space-y-4 text-center">
+          <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+            About Our Journal
+          </span>
+          <h2 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+            PoetryKitaab — An Open Archive of Human Emotions
+          </h2>
+          <p class="text-xs sm:text-sm text-[#423d38] dark:text-[#c7bfb6] leading-relaxed">
+            In a fast, fragmented digital world, {siteConfig.name} is created as a slow, quiet space for poetry, shayari, and reflections. We curate words that speak to longing, resilience, love, and the quiet dignity of everyday life.
+          </p>
+          <div class="pt-3 flex flex-wrap items-center justify-center gap-3">
+            <a
+              href="/about/"
+              class="px-5 py-2.5 rounded bg-[#1c1917] text-[#f4efe6] dark:bg-[#f2eee8] dark:text-[#1c1917] text-xs font-medium hover:bg-[#883025] dark:hover:bg-[#c4584b] dark:hover:text-white transition-colors"
+            >
+              Read Our Story &amp; Standards
+            </a>
+            <a
+              href="/search/"
+              class="px-5 py-2.5 rounded border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] text-[#2c2925] dark:text-[#f2eee8] text-xs font-medium hover:border-[#883025] transition-colors"
+            >
+              Search by Mood or Keyword
+            </a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  )}
+</BaseLayout>

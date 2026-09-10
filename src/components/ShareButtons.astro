@@ -1,0 +1,183 @@
+---
+import type { Post } from '../types/content';
+import { getAbsoluteUrl } from '../utils/seo';
+import Icons from './Icons.astro';
+
+interface Props {
+  post: Post;
+  class?: string;
+}
+
+const { post, class: className = '' } = Astro.props;
+
+const pageUrl = getAbsoluteUrl(`/${post.category}/${post.slug}`);
+const imageUrl = post.image_path.startsWith('http') 
+  ? post.image_path 
+  : getAbsoluteUrl(post.image_path);
+
+const whatsappText = encodeURIComponent(`"${post.text}"\n\nRead more at: ${pageUrl}`);
+const whatsappShareUrl = `https://api.whatsapp.com/send?text=${whatsappText}`;
+
+const pinterestShareUrl = `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(pageUrl)}&media=${encodeURIComponent(imageUrl)}&description=${encodeURIComponent(`"${post.text}" - ${post.title}`)}`;
+---
+
+<div class={`space-y-4 ${className}`} data-share-container>
+  
+  <!-- Primary Action Buttons: Download, Copy Text, Copy Link -->
+  <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
+    
+    <!-- Download Image Button -->
+    <a
+      href={post.image_path}
+      download={`${post.slug}-quote.jpg`}
+      class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-stone-900 text-white dark:bg-white dark:text-stone-900 text-xs sm:text-sm font-semibold hover:bg-stone-800 dark:hover:bg-stone-100 active:scale-95 transition-all shadow-sm flex-1 sm:flex-none"
+      aria-label="Download high-resolution quote image"
+    >
+      <Icons name="download" class="w-4 h-4" />
+      <span>Download Image</span>
+    </a>
+
+    <!-- Copy Text Button -->
+    <button
+      type="button"
+      class="copy-text-btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-stone-100 dark:bg-darkSurface-card hover:bg-stone-200/80 dark:hover:bg-stone-800 border border-stone-200 dark:border-darkSurface-border text-stone-800 dark:text-stone-200 text-xs sm:text-sm font-medium active:scale-95 transition-all flex-1 sm:flex-none"
+      data-text={post.text}
+      aria-label="Copy quote text to clipboard"
+    >
+      <Icons name="copy" class="w-4 h-4 text-stone-500" />
+      <span class="btn-label">Copy Text</span>
+    </button>
+
+    <!-- Copy Link Button -->
+    <button
+      type="button"
+      class="copy-link-btn inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-stone-100 dark:bg-darkSurface-card hover:bg-stone-200/80 dark:hover:bg-stone-800 border border-stone-200 dark:border-darkSurface-border text-stone-800 dark:text-stone-200 text-xs sm:text-sm font-medium active:scale-95 transition-all flex-1 sm:flex-none"
+      data-url={pageUrl}
+      aria-label="Copy post canonical URL"
+    >
+      <Icons name="link" class="w-4 h-4 text-stone-500" />
+      <span class="btn-label">Copy Link</span>
+    </button>
+  </div>
+
+  <!-- Social Sharing Bar: WhatsApp, Pinterest, Web Share API -->
+  <div class="pt-3 border-t border-stone-100 dark:border-stone-800 flex flex-wrap items-center gap-2 text-xs text-stone-500 dark:text-stone-400">
+    <span class="font-medium mr-1">Share:</span>
+
+    <!-- WhatsApp Share -->
+    <a
+      href={whatsappShareUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors font-medium"
+      aria-label="Share quote on WhatsApp"
+    >
+      <Icons name="whatsapp" class="w-3.5 h-3.5" />
+      <span>WhatsApp</span>
+    </a>
+
+    <!-- Pinterest Share -->
+    <a
+      href={pinterestShareUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors font-medium"
+      aria-label="Pin on Pinterest"
+    >
+      <Icons name="pinterest" class="w-3.5 h-3.5" />
+      <span>Pinterest</span>
+    </a>
+
+    <!-- Web Share API Trigger (shows if navigator.share exists) -->
+    <button
+      type="button"
+      class="native-share-btn inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-stone-100 dark:bg-darkSurface-card text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-800 transition-colors font-medium"
+      data-title={post.title}
+      data-text={`"${post.text}"`}
+      data-url={pageUrl}
+      aria-label="More share options"
+    >
+      <Icons name="share2" class="w-3.5 h-3.5" />
+      <span>More</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  // Setup interactive handlers for Copy Text, Copy Link, and Web Share
+  document.addEventListener('DOMContentLoaded', () => {
+    // Helper function to show subtle toast feedback
+    function showFeedback(btn: HTMLElement | null, text: string) {
+      if (!btn) return;
+      const label = btn.querySelector('.btn-label');
+      if (!label) return;
+      
+      const originalText = label.textContent || '';
+      label.textContent = text;
+      btn.classList.add('text-emerald-600', 'dark:text-emerald-400');
+
+      setTimeout(() => {
+        label.textContent = originalText;
+        btn.classList.remove('text-emerald-600', 'dark:text-emerald-400');
+      }, 2000);
+    }
+
+    // Copy Text Handler
+    document.querySelectorAll('.copy-text-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const text = (btn as HTMLElement).dataset.text || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          showFeedback(btn as HTMLElement, 'Copied ✓');
+        } catch {
+          // Fallback if clipboard API is restricted
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          showFeedback(btn as HTMLElement, 'Copied ✓');
+        }
+      });
+    });
+
+    // Copy Link Handler
+    document.querySelectorAll('.copy-link-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const url = (btn as HTMLElement).dataset.url || window.location.href;
+        try {
+          await navigator.clipboard.writeText(url);
+          showFeedback(btn as HTMLElement, 'Link copied ✓');
+        } catch {
+          showFeedback(btn as HTMLElement, 'Link copied ✓');
+        }
+      });
+    });
+
+    // Native Web Share API Handler
+    document.querySelectorAll('.native-share-btn').forEach((btn) => {
+      btn.addEventListener('click', async () => {
+        const title = (btn as HTMLElement).dataset.title || document.title;
+        const text = (btn as HTMLElement).dataset.text || '';
+        const url = (btn as HTMLElement).dataset.url || window.location.href;
+
+        if (navigator.share) {
+          try {
+            await navigator.share({ title, text, url });
+          } catch (e) {
+            // User cancelled share, ignore
+          }
+        } else {
+          // Fallback to copy link
+          await navigator.clipboard.writeText(url);
+          const span = btn.querySelector('span');
+          if (span) {
+            span.textContent = 'Link copied ✓';
+            setTimeout(() => { span.textContent = 'More'; }, 2000);
+          }
+        }
+      });
+    });
+  });
+</script>

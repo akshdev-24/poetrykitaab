@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="fbGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#23201d"/>
+      <stop offset="100%" stop-color="#141311"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#fbGrad)"/>
+  
+  <rect x="30" y="30" width="740" height="440" fill="none" stroke="#38332c" stroke-width="1" stroke-dasharray="4 4"/>
+
+  <!-- Open Kitaab Motif -->
+  <g transform="translate(375, 180)">
+    <path d="M-25 0 C-10 -6 10 -6 25 0 C40 -6 60 -6 75 0 L75 35 C60 29 40 29 25 35 C10 29 -10 29 -25 35 Z" fill="none" stroke="#883025" stroke-width="2.5" stroke-linejoin="round"/>
+    <line x1="25" y1="2" x2="25" y2="35" stroke="#883025" stroke-width="2"/>
+  </g>
+
+  <text x="400" y="270" font-family="Georgia, serif" font-size="28" font-weight="bold" fill="#f4efe6" text-anchor="middle" letter-spacing="0.05em">PoetryKitaab</text>
+  <text x="400" y="305" font-family="Georgia, serif" font-size="16" font-style="italic" fill="#a1978d" text-anchor="middle">A page from our archive</text>
+</svg>

@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { siteConfig } from '../../config/siteConfig';
+
+const breadcrumbs = [{ name: 'Terms of Reading', url: '/terms/' }];
+---
+
+<BaseLayout
+  meta={{
+    title: `Terms of Reading — ${siteConfig.name}`,
+    description: `Read the terms of reading and usage for ${siteConfig.name}.`
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath="/terms/"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-2">
+      <h1 class="font-serif text-3xl sm:text-4xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+        Terms of Reading &amp; Usage
+      </h1>
+      <p class="text-xs font-serif italic text-[#7d746c] dark:text-[#948c82]">
+        Last revised: April 2026
+      </p>
+    </header>
+
+    <div class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-6 text-[#423d38] dark:text-[#c7bfb6] text-xs sm:text-sm leading-relaxed">
+      
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          1. Personal &amp; Emotional Expression
+        </h2>
+        <p>
+          The poems, couplets, and posters on {siteConfig.name} are provided freely for personal reading, emotional solace, status sharing, and reflection.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          2. Fair Sharing &amp; Non-Commercial Use
+        </h2>
+        <p>
+          You may freely copy text and download individual posters for personal social media use. Bulk scraping or automated republishing for commercial profit without prior permission is prohibited.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

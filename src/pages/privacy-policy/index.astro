@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { siteConfig } from '../../config/siteConfig';
+
+const breadcrumbs = [{ name: 'Privacy Policy', url: '/privacy-policy/' }];
+---
+
+<BaseLayout
+  meta={{
+    title: `Privacy Policy — ${siteConfig.name}`,
+    description: `Read the reader privacy commitment of ${siteConfig.name}. We respect reader confidentiality and collect zero invasive personal data.`
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath="/privacy-policy/"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-2">
+      <h1 class="font-serif text-3xl sm:text-4xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+        Privacy Commitment
+      </h1>
+      <p class="text-xs font-serif italic text-[#7d746c] dark:text-[#948c82]">
+        Last revised: April 2026
+      </p>
+    </header>
+
+    <div class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-6 text-[#423d38] dark:text-[#c7bfb6] text-xs sm:text-sm leading-relaxed">
+      
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          1. Reader Confidentiality &amp; Zero Tracking
+        </h2>
+        <p>
+          At {siteConfig.name}, we believe reading poetry is an intimate personal experience. We do not require accounts, logins, or payment details to read, copy, or download any verse.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          2. Local Storage
+        </h2>
+        <p>
+          We use browser local storage solely to remember your reading preference (such as Paper Mode vs Lamp / Dark Mode). No personal tracking identifiers are stored.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          3. External Sharing
+        </h2>
+        <p>
+          When you use WhatsApp, Pinterest, or Web Share to share verses, those platforms handle the interaction under their respective privacy policies.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

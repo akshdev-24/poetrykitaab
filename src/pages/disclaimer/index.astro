@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { siteConfig } from '../../config/siteConfig';
+
+const breadcrumbs = [{ name: 'Attribution & Disclaimer', url: '/disclaimer/' }];
+---
+
+<BaseLayout
+  meta={{
+    title: `Attribution & Disclaimer — ${siteConfig.name}`,
+    description: `Attribution and content disclaimer for ${siteConfig.name}. Honoring poets, authors, and creators.`
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath="/disclaimer/"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-8">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="space-y-2">
+      <h1 class="font-serif text-3xl sm:text-4xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+        Attribution &amp; Disclaimer
+      </h1>
+      <p class="text-xs font-serif italic text-[#7d746c] dark:text-[#948c82]">
+        Last revised: April 2026
+      </p>
+    </header>
+
+    <div class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-6 text-[#423d38] dark:text-[#c7bfb6] text-xs sm:text-sm leading-relaxed">
+      
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          1. Respect for Traditional &amp; Classical Poets
+        </h2>
+        <p>
+          Classical verses (from poets such as Mirza Ghalib, Faiz Ahmad Faiz, Jaun Elia, Allama Iqbal, Kabir, Rahat Indori, and others) are part of rich literary heritage and shared here with reverence and proper attribution.
+        </p>
+      </section>
+
+      <section class="space-y-2">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          2. Copyright &amp; Correction Requests
+        </h2>
+        <p>
+          If you represent the estate of any writer or believe any verse or image is misattributed or requires removal, please write to us at <a href={`mailto:${siteConfig.contactEmail}`} class="text-[#883025] dark:text-[#c4584b] underline">{siteConfig.contactEmail}</a>, and we will promptly rectify the attribution or remove the content.
+        </p>
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="skyGrad1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1e1b4b"/>
+      <stop offset="40%" stop-color="#431407"/>
+      <stop offset="70%" stop-color="#c2410c"/>
+      <stop offset="100%" stop-color="#fbbf24"/>
+    </linearGradient>
+    <radialGradient id="sunGlow" cx="60%" cy="65%" r="35%">
+      <stop offset="0%" stop-color="#fffbeb" stop-opacity="1"/>
+      <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.8"/>
+      <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#skyGrad1)"/>
+  <circle cx="720" cy="520" r="140" fill="url(#sunGlow)"/>
+  
+  <!-- Mountain Layers -->
+  <path d="M-100 800 L200 480 L450 620 L800 380 L1100 580 L1300 800 Z" fill="#291811" opacity="0.8"/>
+  <path d="M-50 800 L300 540 L600 680 L950 490 L1300 750 L1300 800 Z" fill="#18110e" opacity="0.95"/>
+  <path d="M0 800 L400 640 L750 720 L1100 610 L1300 800 Z" fill="#0c0a09"/>
+  
+  <!-- Atmospheric overlay -->
+  <rect width="1200" height="800" fill="#000000" opacity="0.15"/>
+</svg>

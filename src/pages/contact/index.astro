@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { siteConfig } from '../../config/siteConfig';
+
+const breadcrumbs = [{ name: 'Contact Editorial', url: '/contact/' }];
+---
+
+<BaseLayout
+  meta={{
+    title: `Contact Editorial Board — ${siteConfig.name}`,
+    description: `Send verses, suggestions, feedback or attribution inquiries to the editorial board at ${siteConfig.name}.`
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath="/contact/"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-10">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="text-center space-y-3">
+      <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+        Correspondence
+      </span>
+      <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+        Write to PoetryKitaab
+      </h1>
+      <p class="text-xs sm:text-sm text-[#5e5750] dark:text-[#aba397] max-w-xl mx-auto">
+        Have original shayari, feedback, a poet correction, or licensing inquiry? We welcome your correspondence.
+      </p>
+    </header>
+
+    <div class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-6">
+      
+      <div class="space-y-2 pb-4 border-b border-[#f0eae0] dark:border-[#26231e]">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          Direct Editorial Inbox
+        </h2>
+        <p class="text-xs text-[#5e5750] dark:text-[#aba397]">
+          Reach our editors directly via email:
+        </p>
+        <a
+          href={`mailto:${siteConfig.contactEmail}`}
+          class="inline-block text-sm font-serif font-medium text-[#883025] dark:text-[#c4584b] hover:underline"
+        >
+          {siteConfig.contactEmail}
+        </a>
+      </div>
+
+      <!-- Simple Editorial Mailto Form -->
+      <form id="contact-form" class="space-y-4">
+        <div>
+          <label for="name" class="block text-xs font-serif text-[#1c1917] dark:text-[#f2eee8] mb-1">
+            Your Name / Pen Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            required
+            class="w-full px-3.5 py-2 text-xs sm:text-sm rounded-md bg-[#faf7f2] dark:bg-[#141311] border border-[#e0d9cc] dark:border-[#2d2a24] text-[#1c1917] dark:text-[#f2eee8] focus:outline-none focus:border-[#883025]"
+            placeholder="e.g. Sahir / Kabir"
+          />
+        </div>
+
+        <div>
+          <label for="subject" class="block text-xs font-serif text-[#1c1917] dark:text-[#f2eee8] mb-1">
+            Subject / Topic
+          </label>
+          <select
+            id="subject"
+            class="w-full px-3.5 py-2 text-xs sm:text-sm rounded-md bg-[#faf7f2] dark:bg-[#141311] border border-[#e0d9cc] dark:border-[#2d2a24] text-[#1c1917] dark:text-[#f2eee8] focus:outline-none focus:border-[#883025]"
+          >
+            <option value="Poetry Submission">Original Poetry / Shayari Submission</option>
+            <option value="General Feedback">Reader Feedback &amp; Suggestions</option>
+            <option value="Attribution Correction">Attribution / Copyright Correction</option>
+            <option value="Collaboration">Literary Collaboration</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="message" class="block text-xs font-serif text-[#1c1917] dark:text-[#f2eee8] mb-1">
+            Your Note / Verse
+          </label>
+          <textarea
+            id="message"
+            rows="5"
+            required
+            class="w-full px-3.5 py-2 text-xs sm:text-sm rounded-md bg-[#faf7f2] dark:bg-[#141311] border border-[#e0d9cc] dark:border-[#2d2a24] text-[#1c1917] dark:text-[#f2eee8] focus:outline-none focus:border-[#883025]"
+            placeholder="Write your lines or message here..."
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full py-2.5 rounded-md bg-[#1c1917] text-[#f4efe6] dark:bg-[#f2eee8] dark:text-[#1c1917] text-xs font-medium hover:bg-[#883025] transition-colors shadow-2xs"
+        >
+          Send Letter to Editorial Board
+        </button>
+      </form>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<script define:vars={{ contactEmail: siteConfig.contactEmail }}>
+  const form = document.getElementById('contact-form');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = (document.getElementById('name')).value;
+    const subject = (document.getElementById('subject')).value;
+    const message = (document.getElementById('message')).value;
+
+    const mailtoUrl = `mailto:${contactEmail}?subject=${encodeURIComponent(`[PoetryKitaab: ${subject}] from ${name}`)}&body=${encodeURIComponent(message)}`;
+    window.location.href = mailtoUrl;
+  });
+</script>

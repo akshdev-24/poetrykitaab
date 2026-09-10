@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { siteConfig } from '../../config/siteConfig';
+
+const breadcrumbs = [{ name: 'About Kitaab', url: '/about/' }];
+---
+
+<BaseLayout
+  meta={{
+    title: `About ${siteConfig.name} — Words for the Feelings You Can't Explain`,
+    description: `The story, editorial philosophy, and literary mission behind ${siteConfig.name}. An open journal for poetry, shayari, and reflections.`
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath="/about/"
+>
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16 space-y-12">
+    
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Page Title -->
+    <header class="space-y-4 text-center max-w-2xl mx-auto">
+      <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+        Our Story &amp; Ethos
+      </span>
+      <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#1c1917] dark:text-[#f2eee8] leading-tight">
+        About PoetryKitaab
+      </h1>
+      <p class="font-serif italic text-base sm:text-lg text-[#5e5750] dark:text-[#aba397]">
+        "Words for the feelings you can't explain."
+      </p>
+    </header>
+
+    <!-- Editorial Essays -->
+    <div class="space-y-8 text-[#423d38] dark:text-[#c7bfb6] text-sm sm:text-base leading-[1.8] font-normal">
+      
+      <section class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-4">
+        <h2 class="font-serif text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          Why We Built A Digital Kitaab
+        </h2>
+        <p>
+          {siteConfig.name} was born out of a simple observation: modern feeds move too fast for quiet feelings. When we experience deep love, unbearable heartbreak, heavy silence, or sudden bursts of courage, we rarely need generic advice. We look for words that feel like us.
+        </p>
+        <p>
+          We created this platform as an open digital book — a <em>kitaab</em> where readers can discover modern free verse, timeless Hindi &amp; Urdu shayari, and philosophical reflections without the noise of algorithms.
+        </p>
+      </section>
+
+      <section class="p-6 sm:p-10 rounded-xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-2xs space-y-4">
+        <h2 class="font-serif text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          Editorial Standards &amp; Attribution
+        </h2>
+        <p>
+          Every verse and couplet published here is curated with respect for language, emotional depth, and literary aesthetics. We clearly attribute classical poets and traditional verses while crafting original pieces for the modern reader.
+        </p>
+        <p>
+          Readers are encouraged to copy verses, download visual posters, or share lines with friends and loved ones for personal expression.
+        </p>
+      </section>
+
+      <div class="text-center pt-4">
+        <a
+          href="/contact/"
+          class="inline-flex items-center gap-2 px-6 py-2.5 rounded bg-[#1c1917] text-[#f4efe6] dark:bg-[#f2eee8] dark:text-[#1c1917] text-xs font-medium hover:bg-[#883025] transition-colors"
+        >
+          <span>Write to Our Editorial Board →</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>

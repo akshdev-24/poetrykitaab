@@ -1,0 +1,212 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import EmptyState from '../../components/EmptyState.astro';
+import Icons from '../../components/Icons.astro';
+import { getAllPosts, getPostsByCategory } from '../../utils/contentLoader';
+import { siteConfig } from '../../config/siteConfig';
+
+export async function getStaticPaths() {
+  const allPosts = getAllPosts();
+  
+  const categorySlugs = new Set<string>();
+  siteConfig.categories.forEach(c => categorySlugs.add(c.slug.toLowerCase()));
+  allPosts.forEach(p => categorySlugs.add(p.category.toLowerCase()));
+
+  return Array.from(categorySlugs).map((categorySlug) => {
+    const configCat = siteConfig.categories.find(c => c.slug.toLowerCase() === categorySlug || c.id.toLowerCase() === categorySlug);
+    const categoryName = configCat ? configCat.name : categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+    const categoryDesc = configCat ? configCat.description : `Curated collection of ${categoryName} poems, couplets, and reflections.`;
+    const posts = getPostsByCategory(categorySlug);
+
+    return {
+      params: { category: categorySlug },
+      props: {
+        categorySlug,
+        categoryName,
+        categoryDesc,
+        posts,
+        configCat
+      }
+    };
+  });
+}
+
+const { categorySlug, categoryName, categoryDesc, posts, configCat } = Astro.props;
+
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1);
+const otherCategories = siteConfig.categories.filter(c => c.slug !== categorySlug);
+
+const breadcrumbs = [
+  { name: `${categoryName} Archive`, url: `/${categorySlug}/` }
+];
+
+// Rich literary intros per category
+const categoryIntros: Record<string, { heading: string; hindiTitle: string; lead: string }> = {
+  poetry: {
+    heading: "Poetry for the Quiet, Unspoken Moments",
+    hindiTitle: "कविता एवं नज़्में",
+    lead: "Poetry is the language of what cannot be explained directly. Explore our curated archive of free verse, modern stanzas, and reflective poetry written to give voice to solitude, beauty, and inner transformation."
+  },
+  shayari: {
+    heading: "Soulful Hindi & Urdu Shayari Collection",
+    hindiTitle: "अल्फ़ाज़ और अहसास",
+    lead: "A two-line couplet has the power to hold a lifetime of unsaid emotion. Browse through deeply felt shayari, classic couplets, and nazms exploring ishq, hijr, dard, and the quiet beauty of memory."
+  },
+  love: {
+    heading: "Love Poetry & Heartfelt Romantic Thoughts",
+    hindiTitle: "इश्क़, मोहब्बत और सुकून",
+    lead: "True love lives in gentle gestures, shared silences, and unwavering companionship. Read verses on tenderness, longing, and the warmth of two souls finding home in each other."
+  },
+  sad: {
+    heading: "Sad Poetry & Reflections for Solitary Nights",
+    hindiTitle: "दर्द और तन्हाई",
+    lead: "When sadness visits, silence and words that mirror your heart offer the gentlest company. Find comforting lines crafted for days when you need to sit with your feelings in peace."
+  },
+  heartbreak: {
+    heading: "Heartbreak, Closure & The Art of Moving On",
+    hindiTitle: "अलविदा और नया सवेरा",
+    lead: "Heartbreak is painful, but it is also where quiet resilience is born. Explore words on letting go with dignity, honoring past memories, and making peace with unwritten tomorrows."
+  },
+  life: {
+    heading: "Life Lessons, Time & Zindagi Reflections",
+    hindiTitle: "ज़िंदगी का सफ़र",
+    lead: "Reflections on maturity, patience, destiny, and the winding paths of life. Words to remind you that every season of life carries its own quiet purpose."
+  },
+  motivation: {
+    heading: "Courage, Discipline & Inner Fire",
+    hindiTitle: "हिम्मत और स्वाभिमान",
+    lead: "Actionable mindset thoughts and quiet affirmations for building discipline, mastering your craft, and persevering through life's toughest climbs."
+  },
+  attitude: {
+    heading: "Self-Worth, Dignity & Quiet Strength",
+    hindiTitle: "स्वाभिमान और खुद्दारी",
+    lead: "Attitude rooted in self-respect, silence over noise, and owning your uniqueness without seeking external validation."
+  },
+  quotes: {
+    heading: "Timeless Quotes & Words of Wisdom",
+    hindiTitle: "अनमोल विचार",
+    lead: "A sanctuary of insightful quotations from philosophers, authors, poets, and thinkers across eras."
+  },
+  status: {
+    heading: "Poignant Lines for Thoughtful Sharing",
+    hindiTitle: "ख़ास पंक्तियाँ",
+    lead: "Brief, powerful lines optimized for WhatsApp status, stories, and personal journaling."
+  }
+};
+
+const intro = categoryIntros[categorySlug] || {
+  heading: `${categoryName} Archive`,
+  hindiTitle: configCat?.hindi || "",
+  lead: categoryDesc
+};
+---
+
+<BaseLayout
+  meta={{
+    title: `${categoryName} — ${intro.heading} | ${siteConfig.name}`,
+    description: intro.lead.slice(0, 155),
+    keywords: [categoryName, `${categoryName} poetry`, `${categoryName} shayari`, "poetrykitaab archive"]
+  }}
+  breadcrumbs={breadcrumbs}
+  canonicalPath={`/${categorySlug}/`}
+>
+  <!-- Category Archive Header -->
+  <section class="border-b border-[#e8e3d8] dark:border-[#2d2a24] py-10 sm:py-16 bg-[#faf7f2] dark:bg-[#131210]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 space-y-4">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <div class="max-w-3xl space-y-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-mono uppercase tracking-widest text-[#883025] dark:text-[#c4584b] bg-[#883025]/10 dark:bg-[#c4584b]/15 px-2.5 py-0.5 rounded font-semibold">
+            {categoryName} Archive
+          </span>
+          {intro.hindiTitle && (
+            <span class="font-serif italic text-xs text-[#7d746c] dark:text-[#948c82]">
+              • {intro.hindiTitle}
+            </span>
+          )}
+        </div>
+
+        <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#1c1917] dark:text-[#f2eee8] leading-tight">
+          {intro.heading}
+        </h1>
+
+        <p class="text-xs sm:text-sm md:text-base text-[#5e5750] dark:text-[#aba397] leading-relaxed">
+          {intro.lead}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Pieces Body -->
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    {posts.length === 0 ? (
+      <EmptyState
+        title={`No pieces found in ${categoryName} yet`}
+        description="Our editors are curating new verses for this archive. Please browse other collections."
+        actionText="Browse Kitaab Index"
+        actionHref="/"
+      />
+    ) : (
+      <div class="space-y-12 sm:space-y-16">
+        
+        <!-- Featured Stanza in this Category -->
+        {featuredPost && (
+          <section class="space-y-3">
+            <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+              Selected Piece
+            </span>
+            <PostCard post={featuredPost} variant="editorial-feature" />
+          </section>
+        )}
+
+        <!-- Grid of Remaining Pieces in this Category -->
+        {remainingPosts.length > 0 && (
+          <section class="space-y-6">
+            <div class="border-b border-[#e8e3d8] dark:border-[#2d2a24] pb-2 flex items-baseline justify-between">
+              <h2 class="font-serif text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+                Archive Entries ({posts.length} Pieces)
+              </h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {remainingPosts.map((post) => (
+                <PostCard post={post} variant="poetry-stanza" />
+              ))}
+            </div>
+          </section>
+        )}
+
+        <!-- Other Categories / Internal Linking -->
+        <section class="pt-8 border-t border-[#e8e3d8] dark:border-[#2d2a24] space-y-6">
+          <div>
+            <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+              Other Archives
+            </span>
+            <h3 class="font-serif text-xl font-normal text-[#1c1917] dark:text-[#f2eee8] mt-1">
+              Explore More Sections in PoetryKitaab
+            </h3>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {otherCategories.slice(0, 4).map((cat) => (
+              <a
+                href={`/${cat.slug}/`}
+                class="p-4 rounded-lg border border-[#e4ded3] dark:border-[#282520] bg-white dark:bg-[#1a1815] hover:border-[#883025] transition-all flex flex-col justify-between space-y-1"
+              >
+                <div class="font-serif font-medium text-xs sm:text-sm text-[#1c1917] dark:text-[#f2eee8] hover:text-[#883025]">
+                  {cat.name}
+                </div>
+                <span class="text-[10px] text-[#7d746c] font-serif">{cat.hindi}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+      </div>
+    )}
+  </div>
+</BaseLayout>

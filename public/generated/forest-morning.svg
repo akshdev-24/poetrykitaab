@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="forestSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#064e3b"/>
+      <stop offset="60%" stop-color="#047857"/>
+      <stop offset="100%" stop-color="#a7f3d0"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#forestSky)"/>
+  <circle cx="800" cy="200" r="150" fill="#fef08a" opacity="0.4"/>
+  <!-- Trees Layers -->
+  <polygon points="150,800 250,300 350,800" fill="#022c22" opacity="0.9"/>
+  <polygon points="300,800 420,250 540,800" fill="#064e3b" opacity="0.95"/>
+  <polygon points="500,800 650,200 800,800" fill="#022c22"/>
+  <polygon points="750,800 900,320 1050,800" fill="#064e3b" opacity="0.8"/>
+  <polygon points="950,800 1100,280 1250,800" fill="#022c22"/>
+</svg>

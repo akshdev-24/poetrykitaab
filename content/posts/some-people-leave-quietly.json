@@ -1,0 +1,15 @@
+{
+  "id": "pk-001",
+  "slug": "some-people-leave-quietly",
+  "category": "poetry",
+  "text": "Some people leave quietly,\nbut their absence never does.\n\nIt sits at the corner of your tea cup,\nin the songs you used to skip,\nand in the quiet pauses\nbetween ordinary conversations.",
+  "title": "Some People Leave Quietly — A Verse on Lingering Absence",
+  "description": "A reflection on how the presence of certain people stays woven into the smallest rituals of our everyday lives long after they depart.",
+  "tags": ["poetry", "absence", "quiet-nights", "longing", "memory"],
+  "image_path": "/generated/book-and-window.svg",
+  "source_image_id": "pk_img_01",
+  "source_url": "https://poetrykitaab.com",
+  "license": "Original PoetryKitaab Editorial",
+  "attribution": "PoetryKitaab Archive",
+  "created_at": "2026-04-24T10:00:00Z"
+}

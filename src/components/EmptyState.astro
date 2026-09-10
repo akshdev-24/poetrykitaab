@@ -1,0 +1,38 @@
+---
+import Icons from './Icons.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  actionText?: string;
+  actionHref?: string;
+}
+
+const {
+  title = "No quotes found",
+  description = "We haven't added quotes for this section yet. Check back soon as fresh content is published regularly.",
+  actionText = "Explore All Quotes",
+  actionHref = "/"
+} = Astro.props;
+---
+
+<div class="py-16 px-6 text-center max-w-md mx-auto my-8 rounded-2xl bg-white dark:bg-darkSurface-card border border-stone-200/80 dark:border-darkSurface-border">
+  <div class="w-12 h-12 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-500 dark:text-stone-400 flex items-center justify-center mx-auto mb-4">
+    <Icons name="feather" class="w-6 h-6" />
+  </div>
+  <h3 class="font-serif text-xl font-medium text-stone-900 dark:text-stone-100 mb-2">
+    {title}
+  </h3>
+  <p class="text-xs sm:text-sm text-stone-500 dark:text-stone-400 leading-relaxed mb-6">
+    {description}
+  </p>
+  {actionHref && (
+    <a
+      href={actionHref}
+      class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-900 text-white dark:bg-white dark:text-stone-900 text-xs font-semibold hover:bg-stone-800 dark:hover:bg-stone-100 transition-colors"
+    >
+      <span>{actionText}</span>
+      <Icons name="arrow-right" class="w-3.5 h-3.5" />
+    </a>
+  )}
+</div>

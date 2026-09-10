@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import PostCard from '../../components/PostCard.astro';
+import ShareButtons from '../../components/ShareButtons.astro';
+import Icons from '../../components/Icons.astro';
+import { getAllPosts, getRelatedPosts } from '../../utils/contentLoader';
+import { siteConfig } from '../../config/siteConfig';
+
+export async function getStaticPaths() {
+  const posts = getAllPosts();
+
+  return posts.map((post, index) => {
+    const relatedPosts = getRelatedPosts(post, 3);
+    const prevPost = index > 0 ? posts[index - 1] : null;
+    const nextPost = index < posts.length - 1 ? posts[index + 1] : null;
+
+    return {
+      params: {
+        category: post.category.toLowerCase(),
+        slug: post.slug
+      },
+      props: {
+        post,
+        relatedPosts,
+        prevPost,
+        nextPost
+      }
+    };
+  });
+}
+
+const { post, relatedPosts, prevPost, nextPost } = Astro.props;
+
+const categoryConfig = siteConfig.categories.find(c => c.slug === post.category || c.id === post.category);
+
+const breadcrumbs = [
+  { name: post.categoryName || post.category, url: `/${post.category}/` },
+  { name: post.title, url: `/${post.category}/${post.slug}` }
+];
+---
+
+<BaseLayout
+  meta={{
+    title: `${post.title} — ${siteConfig.name}`,
+    description: post.description,
+    ogImage: post.image_path,
+    ogType: 'article',
+    keywords: post.tags
+  }}
+  post={post}
+  breadcrumbs={breadcrumbs}
+  canonicalPath={`/${post.category}/${post.slug}`}
+>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-14 space-y-10">
+    
+    <!-- Top Breadcrumb -->
+    <Breadcrumbs items={breadcrumbs} />
+
+    <!-- Book Page Container -->
+    <div class="p-8 sm:p-14 rounded-2xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-xs space-y-8">
+      
+      <!-- Page Header & Category -->
+      <header class="space-y-3 pb-6 border-b border-[#f0eae0] dark:border-[#26231e]">
+        <div class="flex items-center justify-between text-xs text-[#7d746c] dark:text-[#948c82]">
+          <div class="flex items-center gap-2">
+            <a 
+              href={`/${post.category}/`} 
+              class="font-sans font-semibold text-[#883025] dark:text-[#c4584b] uppercase tracking-widest hover:underline"
+            >
+              {post.categoryName || post.category}
+            </a>
+            {categoryConfig?.hindi && (
+              <span class="font-serif italic text-[11px] text-[#a1978d]">({categoryConfig.hindi})</span>
+            )}
+          </div>
+          <time datetime={post.created_at} class="font-serif italic">
+            {post.formattedDate}
+          </time>
+        </div>
+
+        <h1 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8] leading-snug">
+          {post.title}
+        </h1>
+      </header>
+
+      <!-- Dominant Poetry Stanza Display -->
+      <div class="py-6 sm:py-8 text-center sm:text-left">
+        <blockquote class="font-serif text-2xl sm:text-3xl md:text-4xl text-[#1c1917] dark:text-[#f2eee8] leading-[2] tracking-tight whitespace-pre-line selection:bg-[#883025]/20">
+          {post.text}
+        </blockquote>
+
+        <div class="pt-6 mt-6 border-t border-[#f4efe6] dark:border-[#23201c] flex items-center justify-between text-xs text-[#7d746c] dark:text-[#948c82]">
+          <span class="font-serif italic text-sm">
+            — {post.attribution || 'PoetryKitaab Archive'}
+          </span>
+          <span class="font-mono text-[11px]">
+            {post.readingTime}
+          </span>
+        </div>
+      </div>
+
+      <!-- Action & Sharing Tool Bar (Download, Copy Text, Copy Link, WhatsApp, Pinterest, Web Share) -->
+      <div class="pt-4 border-t border-[#f0eae0] dark:border-[#26231e]">
+        <ShareButtons post={post} />
+      </div>
+
+    </div>
+
+    <!-- Editorial Context & Reflection -->
+    {post.description && (
+      <section class="p-6 sm:p-8 rounded-xl border border-[#e4ded3] dark:border-[#282520] bg-[#faf7f2]/80 dark:bg-[#151412]/80 space-y-3">
+        <h2 class="font-serif text-lg font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          Reflection &amp; Context
+        </h2>
+        <p class="text-xs sm:text-sm text-[#423d38] dark:text-[#aba397] leading-relaxed">
+          {post.description}
+        </p>
+        
+        {post.tags.length > 0 && (
+          <div class="pt-3 flex flex-wrap items-center gap-1.5 border-t border-[#ede7dc] dark:border-[#23201c]">
+            <span class="text-xs font-serif italic text-[#7d746c] mr-1">Tags:</span>
+            {post.tags.map((tag) => (
+              <a
+                href={`/search/?q=${encodeURIComponent(tag)}`}
+                class="text-xs px-2.5 py-1 rounded bg-white dark:bg-[#1a1815] border border-[#e0d9cc] dark:border-[#2d2a24] text-[#423d38] dark:text-[#c7bfb6] hover:border-[#883025] hover:text-[#883025] transition-colors"
+              >
+                #{tag}
+              </a>
+            ))}
+          </div>
+        )}
+      </section>
+    )}
+
+    <!-- Previous & Next Navigation -->
+    {(prevPost || nextPost) && (
+      <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2" aria-label="Previous and next piece">
+        {prevPost ? (
+          <a
+            href={`/${prevPost.category}/${prevPost.slug}`}
+            class="group p-4 rounded-lg border border-[#e4ded3] dark:border-[#282520] bg-white dark:bg-[#1a1815] hover:border-[#883025] dark:hover:border-[#c4584b] transition-all flex items-center gap-3 text-left"
+          >
+            <span class="text-[#883025] dark:text-[#c4584b] group-hover:-translate-x-1 transition-transform">←</span>
+            <div class="overflow-hidden">
+              <span class="text-[10px] uppercase font-sans tracking-wider text-[#7d746c]">Previous Piece</span>
+              <p class="text-xs font-serif text-[#1c1917] dark:text-[#f2eee8] truncate group-hover:text-[#883025] dark:group-hover:text-[#c4584b]">
+                {prevPost.title}
+              </p>
+            </div>
+          </a>
+        ) : <div />}
+
+        {nextPost && (
+          <a
+            href={`/${nextPost.category}/${nextPost.slug}`}
+            class="group p-4 rounded-lg border border-[#e4ded3] dark:border-[#282520] bg-white dark:bg-[#1a1815] hover:border-[#883025] dark:hover:border-[#c4584b] transition-all flex items-center justify-end gap-3 text-right"
+          >
+            <div class="overflow-hidden">
+              <span class="text-[10px] uppercase font-sans tracking-wider text-[#7d746c]">Next Piece</span>
+              <p class="text-xs font-serif text-[#1c1917] dark:text-[#f2eee8] truncate group-hover:text-[#883025] dark:group-hover:text-[#c4584b]">
+                {nextPost.title}
+              </p>
+            </div>
+            <span class="text-[#883025] dark:text-[#c4584b] group-hover:translate-x-1 transition-transform">→</span>
+          </a>
+        )}
+      </nav>
+    )}
+
+    <!-- Related Poetry / Recommendations -->
+    {relatedPosts.length > 0 && (
+      <section class="pt-8 border-t border-[#e8e3d8] dark:border-[#2d2a24] space-y-6">
+        <div class="flex items-baseline justify-between">
+          <h2 class="font-serif text-xl sm:text-2xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+            Related Pieces in The Archive
+          </h2>
+          <a href={`/${post.category}/`} class="text-xs font-serif italic text-[#883025] dark:text-[#c4584b] hover:underline">
+            More in {post.categoryName || post.category} →
+          </a>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {relatedPosts.map((rel) => (
+            <PostCard post={rel} variant="poetry-stanza" />
+          ))}
+        </div>
+      </section>
+    )}
+
+  </article>
+</BaseLayout>

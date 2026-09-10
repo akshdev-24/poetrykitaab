@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icons from '../components/Icons.astro';
+import { siteConfig } from '../config/siteConfig';
+---
+
+<BaseLayout
+  meta={{
+    title: `Page Not In Archive (404) — ${siteConfig.name}`,
+    description: `The piece you are looking for is not in our archive or has been moved. Explore our poems or search the archive.`,
+    noindex: true
+  }}
+  canonicalPath="/404"
+>
+  <div class="min-h-[60vh] flex items-center justify-center px-4 sm:px-6 py-16">
+    <div class="max-w-md text-center space-y-6 p-8 sm:p-12 rounded-2xl border border-[#ded7c8] dark:border-[#2d2a24] bg-white dark:bg-[#1a1815] shadow-xs">
+      
+      <span class="font-serif text-5xl sm:text-6xl font-normal text-[#883025] dark:text-[#c4584b]">
+        404
+      </span>
+
+      <div class="space-y-2">
+        <h1 class="font-serif text-2xl font-normal text-[#1c1917] dark:text-[#f2eee8]">
+          This Page Has Gone Quiet
+        </h1>
+        <p class="text-xs sm:text-sm text-[#5e5750] dark:text-[#aba397] leading-relaxed">
+          The verse, category, or page you were looking for is not in our current book. Perhaps it was moved or never written.
+        </p>
+      </div>
+
+      <div class="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a
+          href="/"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded bg-[#1c1917] text-[#f4efe6] dark:bg-[#f2eee8] dark:text-[#1c1917] text-xs font-medium hover:bg-[#883025] transition-colors"
+        >
+          <span>Return to Homepage</span>
+        </a>
+
+        <a
+          href="/search/"
+          class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded border border-[#ded7c8] dark:border-[#2d2a24] text-[#1c1917] dark:text-[#f2eee8] text-xs font-medium hover:border-[#883025] transition-colors"
+        >
+          <Icons name="search" class="w-3.5 h-3.5" />
+          <span>Search The Archive</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

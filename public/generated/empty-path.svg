@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 650" width="1000" height="650">
+  <defs>
+    <linearGradient id="twilightSky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2a2335"/>
+      <stop offset="50%" stop-color="#4a3b47"/>
+      <stop offset="85%" stop-color="#8c6258"/>
+      <stop offset="100%" stop-color="#d49c7d"/>
+    </linearGradient>
+  </defs>
+  <rect width="1000" height="650" fill="url(#twilightSky)"/>
+  
+  <!-- Crescent Moon -->
+  <path d="M780 120 A 25 25 0 1 0 760 160 A 20 20 0 1 1 780 120 Z" fill="#fef08a" opacity="0.8"/>
+
+  <!-- Horizon & Winding Road -->
+  <polygon points="0,480 1000,480 1000,650 0,650" fill="#1b171a"/>
+  
+  <path d="M480 480 Q 520 540 420 650 L 560 650 Q 580 540 500 480 Z" fill="#2d262b"/>
+  
+  <!-- Tree Silhouette on Right -->
+  <path d="M850 480 Q840 380 820 300 Q860 330 890 290 Q870 380 860 480 Z" fill="#131012"/>
+  <path d="M820 300 Q780 250 740 280 Q800 290 820 300 Z" fill="#131012"/>
+  <path d="M890 290 Q940 240 980 270 Q920 290 890 290 Z" fill="#131012"/>
+</svg>

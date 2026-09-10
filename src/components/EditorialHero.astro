@@ -1,0 +1,112 @@
+---
+import Icons from './Icons.astro';
+import type { Post } from '../types/content';
+
+interface Props {
+  featuredPost?: Post;
+}
+
+const { featuredPost } = Astro.props;
+
+const fallbackVerse = {
+  category: "poetry",
+  text: "Some people leave quietly,\nbut their absence never does.\n\nIt sits at the corner of your tea cup,\nin the songs you used to skip,\nand in the quiet pauses\nbetween ordinary conversations.",
+  title: "Some People Leave Quietly",
+  attribution: "PoetryKitaab Archive",
+  slug: "some-people-leave-quietly"
+};
+
+const displayPiece = featuredPost || fallbackVerse;
+---
+
+<section class="py-10 sm:py-16 border-b border-[#e8e3d8] dark:border-[#2d2a24]">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    
+    <!-- Top Journal Metadata Strip -->
+    <div class="flex items-center justify-between pb-6 mb-8 border-b border-[#ece6d9] dark:border-[#26231e] text-xs text-[#7d746c] dark:text-[#948c82]">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-[#883025] animate-pulse"></span>
+        <span class="font-serif italic text-[#883025] dark:text-[#c4584b] font-medium">Featured Journal Entry</span>
+      </div>
+      <span class="font-sans text-[11px] tracking-wider uppercase">PoetryKitaab Edition</span>
+    </div>
+
+    <!-- Main Editorial Showcase (Two-column asymmetric layout) -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      
+      <!-- Primary Poetry Typography Column (7 Cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        <div class="space-y-4">
+          <span class="inline-block text-[11px] font-mono tracking-widest uppercase text-[#883025] dark:text-[#c4584b] bg-[#883025]/10 dark:bg-[#c4584b]/15 px-2.5 py-1 rounded">
+            {displayPiece.category}
+          </span>
+          
+          <a href={`/${displayPiece.category}/${displayPiece.slug}`} class="block group">
+            <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-normal text-[#1c1917] dark:text-[#f2eee8] leading-[1.65] tracking-tight group-hover:text-[#883025] dark:group-hover:text-[#c4584b] transition-colors whitespace-pre-line">
+              {displayPiece.text}
+            </h1>
+          </a>
+        </div>
+
+        <div class="pt-2 flex items-center justify-between text-xs text-[#7d746c] dark:text-[#948c82] border-t border-[#f0eae0] dark:border-[#26231e]">
+          <span class="font-serif italic text-sm">
+            — {displayPiece.attribution}
+          </span>
+          <a 
+            href={`/${displayPiece.category}/${displayPiece.slug}`}
+            class="inline-flex items-center gap-1.5 font-medium text-[#883025] dark:text-[#c4584b] hover:underline"
+          >
+            <span>Read full piece &amp; share</span>
+            <Icons name="arrow-right" class="w-3.5 h-3.5" />
+          </a>
+        </div>
+      </div>
+
+      <!-- Atmospheric Artwork & Editorial Search Column (5 Cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <!-- Atmospheric Illustration Box -->
+        <div class="rounded-xl overflow-hidden border border-[#ded7c8] dark:border-[#2d2a24] bg-[#1a1815] shadow-sm relative aspect-[4/3]">
+          <img
+            src={displayPiece.image_path || '/generated/book-and-window.svg'}
+            alt="PoetryKitaab Journal Atmosphere"
+            class="w-full h-full object-cover opacity-85 hover:scale-102 transition-transform duration-700"
+            loading="eager"
+            decoding="async"
+          />
+          <div class="absolute bottom-3 left-3 right-3 p-3 rounded bg-black/60 backdrop-blur-xs text-white text-[11px] flex items-center justify-between">
+            <span class="font-serif italic truncate max-w-[200px]">{displayPiece.title}</span>
+            <span class="uppercase tracking-widest text-[9px] text-[#fed7aa]">Archive No. {displayPiece.id || '01'}</span>
+          </div>
+        </div>
+
+        <!-- Integrated Literary Search Input -->
+        <form 
+          action="/search/" 
+          method="get"
+          class="flex items-center bg-white dark:bg-[#1a1815] rounded-lg border border-[#ded7c8] dark:border-[#2d2a24] p-1.5 focus-within:border-[#883025] shadow-2xs transition-all"
+        >
+          <div class="pl-3 text-[#7d746c] dark:text-[#948c82]">
+            <Icons name="search" class="w-4 h-4 text-[#883025] dark:text-[#c4584b]" />
+          </div>
+          <input
+            type="search"
+            name="q"
+            placeholder="Search poems, shayari, nazms, quotes..."
+            class="w-full px-3 py-2 text-xs sm:text-sm bg-transparent text-[#1c1917] dark:text-[#f2eee8] placeholder-[#a1978d] focus:outline-none"
+            aria-label="Search archive"
+            required
+          />
+          <button
+            type="submit"
+            class="px-4 py-2 rounded bg-[#1c1917] hover:bg-[#883025] text-[#f4efe6] font-medium text-xs transition-colors"
+          >
+            Find
+          </button>
+        </form>
+
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,0 +1,51 @@
+---
+import { siteConfig } from '../config/siteConfig';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<section class={`space-y-6 ${className}`}>
+  <div class="border-b border-[#e8e3d8] dark:border-[#2d2a24] pb-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+    <div>
+      <span class="text-xs font-serif uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-semibold">
+        Curated Pathways
+      </span>
+      <h2 class="font-serif text-2xl sm:text-3xl font-normal text-[#1c1917] dark:text-[#f2eee8] mt-0.5">
+        Explore by Feeling
+      </h2>
+    </div>
+    <span class="text-xs italic text-[#7d746c] dark:text-[#948c82] font-serif">
+      Find words that match the state of your heart
+    </span>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+    {siteConfig.moods.map((mood) => (
+      <a
+        href={`/search/?q=${encodeURIComponent(mood.tag)}`}
+        class="group p-5 rounded-lg border border-[#e4ded3] dark:border-[#282520] bg-white dark:bg-[#1a1815] hover:border-[#883025] dark:hover:border-[#c4584b] transition-all flex flex-col justify-between space-y-3 hover:shadow-sm"
+      >
+        <div class="space-y-1">
+          <span class="text-[11px] font-sans uppercase tracking-widest text-[#883025] dark:text-[#c4584b] font-medium">
+            Path • {mood.tag}
+          </span>
+          <h3 class="font-serif text-lg font-medium text-[#1c1917] dark:text-[#f2eee8] group-hover:text-[#883025] dark:group-hover:text-[#c4584b] transition-colors">
+            {mood.title}
+          </h3>
+          <p class="text-xs text-[#5e5750] dark:text-[#a1978d] leading-relaxed">
+            {mood.subtitle}
+          </p>
+        </div>
+
+        <div class="pt-2 border-t border-[#f2ede4] dark:border-[#23201c] flex items-center justify-between text-xs text-[#7d746c] dark:text-[#948c82]">
+          <span class="font-serif italic">Open collection</span>
+          <span class="group-hover:translate-x-1 transition-transform text-[#883025] dark:text-[#c4584b]">→</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>

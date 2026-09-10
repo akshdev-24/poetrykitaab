@@ -1,0 +1,13 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+Allow: /generated/
+Allow: /favicon.svg
+Allow: /og-image.svg
+
+# Disallow search query pages to prevent crawl budget waste
+Disallow: /search?*
+Disallow: /search/
+
+# Sitemap Location
+Sitemap: https://poetrykitaab.pages.dev/sitemap.xml

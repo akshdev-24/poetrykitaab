@@ -1,0 +1,68 @@
+---
+import { siteConfig } from '../config/siteConfig';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-[#ded7c8] dark:border-[#2d2a24] bg-[#f5f1e9] dark:bg-[#100f0d] text-[#423d38] dark:text-[#aba397] transition-colors">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-12">
+    
+    <!-- Top Editorial Masthead Strip -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12">
+      
+      <!-- Brand & Mission Column -->
+      <div class="md:col-span-5 space-y-4">
+        <a href="/" class="flex items-center gap-2.5 text-[#1c1917] dark:text-[#f2eee8]">
+          <span class="font-serif font-bold text-2xl tracking-tight text-[#883025] dark:text-[#c4584b]">
+            PoetryKitaab
+          </span>
+        </a>
+        <p class="font-serif italic text-sm text-[#5e5750] dark:text-[#aba397] leading-relaxed max-w-sm">
+          "Words for the feelings you can't explain."
+        </p>
+        <p class="text-xs text-[#7d746c] dark:text-[#8c847a] leading-relaxed max-w-sm">
+          A modern digital poetry journal and archive dedicated to heartfelt verses, classic shayari, nazms, and quiet reflections. Designed for reading, introspection, and thoughtful sharing.
+        </p>
+      </div>
+
+      <!-- Genres & Archives -->
+      <div class="md:col-span-3 space-y-3">
+        <h3 class="text-xs font-serif uppercase tracking-widest text-[#1c1917] dark:text-[#f2eee8] font-semibold">
+          The Archives
+        </h3>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/poetry/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Modern Poetry</a></li>
+          <li><a href="/shayari/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Hindi &amp; Urdu Shayari</a></li>
+          <li><a href="/quotes/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Timeless Quotes</a></li>
+          <li><a href="/love/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Love &amp; Ishq</a></li>
+          <li><a href="/sad/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Sad &amp; Dard</a></li>
+          <li><a href="/heartbreak/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Heartbreak &amp; Healing</a></li>
+        </ul>
+      </div>
+
+      <!-- Editorial & Legal -->
+      <div class="md:col-span-4 space-y-3">
+        <h3 class="text-xs font-serif uppercase tracking-widest text-[#1c1917] dark:text-[#f2eee8] font-semibold">
+          Information &amp; Editorial
+        </h3>
+        <ul class="space-y-2 text-xs">
+          <li><a href="/about/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">About PoetryKitaab</a></li>
+          <li><a href="/contact/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Contact Editorial Board</a></li>
+          <li><a href="/privacy-policy/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Privacy Policy</a></li>
+          <li><a href="/terms/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Terms of Reading</a></li>
+          <li><a href="/disclaimer/" class="hover:text-[#883025] dark:hover:text-[#c4584b] transition-colors">Content &amp; Attribution Disclaimer</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Bottom Colophon / Copyright -->
+    <div class="pt-8 border-t border-[#e2dacb] dark:border-[#22201b] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7d746c] dark:text-[#8c847a]">
+      <p>© {currentYear} {siteConfig.name}. An independent literary archive.</p>
+      <p class="font-serif italic text-[11px]">
+        Printed on digital paper for quiet minds.
+      </p>
+    </div>
+
+  </div>
+</footer>
