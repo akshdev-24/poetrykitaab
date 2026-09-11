@@ -1,0 +1,9 @@
+{
+  "categories": [
+    {"id": "love", "name": "Love"},
+    {"id": "sad", "name": "Sad"},
+    {"id": "life", "name": "Life"},
+    {"id": "motivation", "name": "Motivation"},
+    {"id": "attitude", "name": "Attitude"}
+  ]
+}
